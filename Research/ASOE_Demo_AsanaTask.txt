@@ -1,0 +1,87 @@
+Demo Walkthrough
+
+Link: https://claude.ai/public/artifacts/dcef5540-d295-4bd3-9036-f9dfd0c037d1
+
+Opening (15 seconds) 
+"I built a working prototype of our Automated Sales Outreach Engine. Let me show you what it does."
+Demo Flow:
+Point to the three workflow types: "We have three outreach scenarios - net new prospecting, closed lost deals, and client expansion. Each needs different messaging."
+Click on 'Past Clients (Expansion)': "Here's a real example - our Vercel engagement. They've been on EaaSe/OA for a year, now planning a Salesforce migration."
+Click 'Generate Outreach Assets': "Watch this..."
+Show the outputs as they appear:
+"Email draft - references our embedded partnership, addresses the migration documentation gap"
+"Loom script - 90 seconds, timestamped, ready to record"
+"Slide content - tailored to their specific situation, drop into our deck"
+The Ask (30 seconds)
+"This works. It's fast, personalized, and saves us hours per outreach. I want to productionize this with Slack inputs, n8n orchestration, and automated Google Drive outputs. 
+Business Value: Solves our current outreach bottleneck
+I manually create these assets today with Gemini (30 min per prospect)
+This reduces it to 30 seconds of form-filling + review
+Quality is higher because it's consistent with our frameworks
+
+Production System (What we'd build) SLACK WORKFLOW FORMS
+  → Sales fill forms in Slack (no context switching)
+  → Three form types (Net New | Closed Lost | Expansion)
+
+n8n ORCHESTRATION
+  → Receives webhook from Slack
+  → Routes to enrichment APIs
+  → Manages agent pipeline
+  → Handles error cases
+
+ENRICHMENT LAYER
+  → Apollo.io: Contact data, tech stack, company news
+  → Web scraping: Company website, recent announcements
+  → Salesforce: Past engagement history, health scores
+  → Asana/Fireflies?
+
+AI AGENT PIPELINE
+  → Research Agent: Analyzes company + context
+  → Fact-Check Agent: Validates claims, assigns confidence
+  → Email Generator: Personalized outreach copy
+  → Loom Script: Timestamped video script
+  → Slide Generator: Custom "Complexity Wall" content
+
+GOOGLE DRIVE OUTPUT
+  → Auto-creates folder: [Company Name] - [Date]
+  → Google Doc: Email + Loom script (copy-paste ready)
+  → *Google Slides: Updates master deck Slide 3
+   → (Just creating the text would be fine for now)
+
+SLACK NOTIFICATION
+  → Posts to original thread: "✅ Assets ready: [links]"
+  → Sales rep reviews, customizes, sends
+
+"Why not just use Gemini?" 
+Gemini requires manual prompting every time. A gem has worked, but relevant context is still gathered manually. This is a system - Slack triggers it, n8n orchestrates it, outputs land in Drive automatically. It's repeatable, auditable, and doesn't require us to be prompt engineers every time.
+
+"What's the ROI?" 
+Current state: 30 min per personalized outreach, inconsistent quality. Future state: 5 minutes (form fill + review), consistent with our best frameworks. If we do 10 outreaches/week, that's 4 hours back to the team or the opportunity to do 5X the outreach. Plus, higher response rates from better personalization.
+
+"What are the risks?" 
+The biggest risk is prompt drift - AI outputs need monitoring. 
+We solve this with: 
+(1) Fact-check agent for validation, 
+(2) Human review before sending, 
+(3) Output templates to constrain formatting. 
+It's AI-assisted, not AI-automated.
+
+"Can we white-label this for clients?" 
+Absolutely. Same system, different templates. We could offer this as an EaaSe add-on - 'AI-Powered Outreach Automation' for our clients' sales teams.
+
+"What's the timeline?" 
+Phase 1 (MVP): 2-3 weeks - Basic Slack → n8n → AI → Drive flow for one workflow type (Net New?). 
+Phase 2: Add enrichment layer (Apollo, web scraping). 
+Phase 3: All three workflow types + refinement.
+
+
+Next Steps:
+Document detailed prompt templates for each agent
+The "Black Swan" Re-Engagement Generator
+Map Slack webhook schema for three workflow types
+Spec n8n workflow (nodes, error handling, logging)
+Define Google Drive folder structure + template docs
+Templates
+✅ Loom Video - Slide Deck Templates for EaaSe focus for Closed Lost Prospects
+(Consumer Goods, High Tech / SaaS, Professional Services, Financial Services)
+Build Phase 1 MVP in 2 weeks 

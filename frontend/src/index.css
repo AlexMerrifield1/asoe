@@ -1,0 +1,598 @@
+/* Import Google Fonts for premium typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for theming */
+:root {
+  /* Light mode colors */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --border-glass: rgba(255, 255, 255, 0.18);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-teal: #14b8a6;
+  --glow-color: rgba(59, 130, 246, 0.4);
+}
+
+.dark {
+  /* Dark mode colors */
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-glass: rgba(26, 26, 46, 0.8);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-blue: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-teal: #2dd4bf;
+  --glow-color: rgba(96, 165, 250, 0.4);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+code {
+  font-family: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ============================================
+   GLASSMORPHISM COMPONENTS
+   ============================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Keep cards white even in dark mode */
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient border effect */
+.gradient-border {
+  position: relative;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.5),
+    rgba(139, 92, 246, 0.5),
+    rgba(20, 184, 166, 0.5),
+    rgba(59, 130, 246, 0.5)
+  );
+  background-size: 300% 300%;
+  animation: border-flow 4s ease infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes border-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   SHIMMER & LOADING EFFECTS
+   ============================================ */
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.dark .shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Scanning laser line effect */
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.3),
+    rgba(139, 92, 246, 0.3),
+    transparent
+  );
+  animation: scan 2.5s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { left: -50%; }
+  100% { left: 150%; }
+}
+
+/* ============================================
+   ANIMATED BUTTONS
+   ============================================ */
+
+.btn-gradient {
+  position: relative;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #14b8a6);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  border: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #2dd4bf);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-gradient:hover::before {
+  opacity: 1;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 40px -10px rgba(59, 130, 246, 0.5),
+    0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Liquid button effect */
+.btn-liquid {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-liquid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  z-index: -1;
+}
+
+.btn-liquid:hover::before {
+  width: 300%;
+  height: 300%;
+}
+
+/* Neon glow button */
+.btn-neon {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.btn-neon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow:
+    0 0 20px var(--accent-blue),
+    0 0 40px var(--accent-blue),
+    inset 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.btn-neon:hover::after {
+  opacity: 1;
+}
+
+/* ============================================
+   FLOATING LABELS
+   ============================================ */
+
+.floating-label-container {
+  position: relative;
+}
+
+.floating-label-input {
+  padding-top: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.floating-label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: transparent;
+  padding: 0 0.25rem;
+}
+
+.floating-label-input:focus ~ .floating-label,
+.floating-label-input:not(:placeholder-shown) ~ .floating-label {
+  top: 0.25rem;
+  transform: translateY(0);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--accent-blue);
+}
+
+/* ============================================
+   GLOWING INPUT FOCUS
+   ============================================ */
+
+.input-glow {
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.input-glow:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.1),
+    0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.dark .input-glow {
+  border-color: #374151;
+  background: rgba(30, 30, 50, 0.5);
+}
+
+.dark .input-glow:focus {
+  border-color: var(--accent-blue);
+  box-shadow:
+    0 0 0 3px rgba(96, 165, 250, 0.15),
+    0 0 20px rgba(96, 165, 250, 0.3);
+}
+
+/* Color-specific focus glows */
+.input-glow-blue:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.input-glow-orange:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.2);
+}
+
+.input-glow-green:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1), 0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+.input-glow-purple:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+.input-glow-teal:focus {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1), 0 0 20px rgba(20, 184, 166, 0.2);
+}
+
+/* ============================================
+   PROGRESS INDICATORS
+   ============================================ */
+
+/* Pulsing glow for active steps */
+.progress-pulse {
+  animation: progress-pulse 2s ease-in-out infinite;
+}
+
+@keyframes progress-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    transform: scale(1.05);
+  }
+}
+
+/* Terminal-style typing effect */
+.typing-text {
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--accent-blue);
+  animation:
+    typing 1s steps(30) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--accent-blue); }
+}
+
+/* Progress bar with gradient */
+.progress-bar-gradient {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #14b8a6);
+  background-size: 200% 100%;
+  animation: progress-gradient 2s linear infinite;
+}
+
+@keyframes progress-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ============================================
+   LAYERED SHADOWS
+   ============================================ */
+
+.shadow-layered {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.02),
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 8px rgba(0, 0, 0, 0.02),
+    0 8px 16px rgba(0, 0, 0, 0.02),
+    0 16px 32px rgba(0, 0, 0, 0.02);
+}
+
+.shadow-layered-lg {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.04),
+    0 16px 32px rgba(0, 0, 0, 0.05),
+    0 32px 64px rgba(0, 0, 0, 0.06);
+}
+
+.dark .shadow-layered {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-elevated {
+  box-shadow:
+    0 10px 40px -10px rgba(0, 0, 0, 0.15),
+    0 5px 20px -10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .shadow-elevated {
+  box-shadow:
+    0 10px 40px -10px rgba(0, 0, 0, 0.5),
+    0 5px 20px -10px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   DARK MODE TOGGLE
+   ============================================ */
+
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.theme-toggle.dark {
+  background: linear-gradient(135deg, #1e3a5f, #0f172a);
+}
+
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.theme-toggle.dark::before {
+  transform: translateX(30px);
+  background: #e2e8f0;
+}
+
+/* ============================================
+   BACKGROUND EFFECTS
+   ============================================ */
+
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.05) 1px, transparent 1px);
+}
+
+.bg-dots-pattern {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Animated gradient background */
+.bg-animated-gradient {
+  background: linear-gradient(-45deg, #f0f9ff, #e0f2fe, #f5f3ff, #f0fdfa);
+  background-size: 400% 400%;
+  animation: gradient-bg 15s ease infinite;
+}
+
+.dark .bg-animated-gradient {
+  background: linear-gradient(-45deg, #0f0f1a, #1a1a2e, #1e1b4b, #042f2e);
+  background-size: 400% 400%;
+}
+
+@keyframes gradient-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+   TAB ANIMATIONS
+   ============================================ */
+
+.tab-indicator {
+  position: relative;
+}
+
+.tab-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.tab-indicator:hover::after,
+.tab-indicator.active::after {
+  width: 100%;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-gradient {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-gradient {
+  border: double 2px transparent;
+  background-image: linear-gradient(white, white), linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.dark .border-gradient {
+  background-image: linear-gradient(#1a1a2e, #1a1a2e), linear-gradient(135deg, #60a5fa, #a78bfa);
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,45 @@
+Subject: The hourly rate in '23 (and the Pardot reality) Alt Subject: Task-taking vs. Strategy
+Body:
+Hi Cody,
+We quoted a bucket of hours for Sales Cloud and Pardot support back in Jan '23. You found a partner with a lower hourly rate.
+You made the right call.
+If the goal was just to close tickets and fix errors, paying a premium rate makes no sense.
+However, the reason I’m circling back is that we often see a "Strategy Void" open up about two years into a low-cost support engagement. You likely have a partner who is great at doing exactly what you tell them to do (ticket taking), but no one who is telling you what the system should be doing (architecture).
+This usually leads to a messy database and "batch-and-blast" marketing because the automation logic was never properly built.
+We realized that billing by the hour actually incentivized this problem. So we stopped.
+I made a 90-second video explaining our new model (EaaSe), which combines high-level Strategy (SA) with low-cost Execution (Admin) to give you the best of both worlds.
+[LINK TO LOOM VIDEO: Convergint: Beyond Ticket Taking]
+Are you opposed to seeing if this hybrid model fixes the strategy gap without blowing up the budget?
+Best,
+
+
+Subject: The $50k quote (and why you rejected it) Alt Subject: Advisor efficiency vs. Hourly billing
+Body:
+Hi Evan,
+We quoted you roughly $50k for FSC implementation support a while back, and you decided to go a different direction.
+Looking back at that proposal—specifically the $200 hourly rate—you made the right call.
+You’re likely expecting this email to be a request to "re-open the file" or negotiate that rate.
+It isn't.
+We realized that for a firm like Ulrich, the hourly billing model is fundamentally broken. It discourages your team from asking for help because every phone call costs money. This leads to "silent adoption issues" where advisors stop using the system because they don't want to incur a bill to fix it.
+We dismantled that model entirely.
+I made a 90-second video explaining how we shifted to a subscription model (EaaSe) that encourages your team to ask for help, rather than penalizing them for it.
+[LINK TO LOOM VIDEO: Ulrich: Killing the Billable Hour]
+Are you opposed to seeing if this new approach solves the support gap better than the old proposal did?
+Best,
+
+
+Subject: The Sales Cloud project (and the marketing data gap)
+Hi Sam,
+We quoted a Sales Cloud implementation for Vitrek a while back, and you ultimately went a different direction.
+
+You made the right call. At the time, we were focused on a traditional "IT-build". For a VP of Marketing, that likely looked like a lot of technical overhead with no guarantee that it would actually help you track ROI on your campaigns.
+
+The reason I’m reaching out now is that high-tech manufacturers often hit a "Complexity Wall" 18 months after a CRM launch. Marketing generates technical leads, but they often fall into a "Sales Black Hole" where you can’t trace a Closed-Won deal back to the original trade show or campaign that sourced it.
+
+We realized the old way of billing by the hour didn't solve this, so we changed our entire business model to solve for outcomes rather than just closing tickets.
+
+I put together a 90-second video for you below explaining how we’ve helped other manufacturing leaders bridge this gap.
+[LINK TO LOOM: Vitrek: Bridging the Marketing-Sales Gap]
+Would it be a ridiculous idea to see if we can fix that visibility gap without a new implementation contract?
+Best,
+[Your Name]

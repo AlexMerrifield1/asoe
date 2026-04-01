@@ -1,0 +1,1545 @@
+Perfect! I've completed the research. Let me share the key findings and then identify what commands we need to execute.
+
+Research Summary
+Key Findings:
+Web Scraping: You have built-in WebFetch tool + can add MCP servers (Apify has 6,000+ extraction tools). For production, you'll need custom MCP servers or n8n integration.
+
+AI Agent Pipeline: Claude Code supports multi-agent orchestration with subagents. You can create specialized agents (Research, Fact-Check, Email Generator, etc.) that work sequentially or in parallel.
+
+External Integrations:
+
+✅ Apollo.io, Salesforce, Google Drive, Slack all have MCP servers
+✅ Can build custom UI panels in VS Code with React (you already use React)
+⚠️ Google Slides API is limited (text insertion only, not complex formatting)
+⚠️ Claude Code runs locally, so production needs n8n for orchestration
+Commands I Need to Execute:
+Before creating the plan, let me check your local environment:
+
+Bash List all files including hidden ones
+IN
+cd "/Users/alexmerrifield/Developer/SOLVD/ASOE Demo" && ls -la
+
+OUT
+total 128
+drwxr-xr-x  5 alexmerrifield  staff    160 Jan 22 22:00 .
+drwxr-xr-x@ 5 alexmerrifield  staff    160 Jan 22 21:57 ..
+-rw-r--r--  1 alexmerrifield  staff   4264 Jan 22 22:02 ASOE_Demo_AsanaTask.txt
+-rw-r--r--@ 1 alexmerrifield  staff  24841 Jan 22 21:56 asoe_demo_app.tsx
+-rw-r--r--  1 alexmerrifield  staff  24841 Jan 22 21:57 import React, { useState } from 'react';.md
+Bash Check if Node.js is installed
+IN
+which node && node --version
+
+OUT
+/opt/homebrew/bin/node
+v25.2.1
+Bash Check if Python is installed
+IN
+which python3 && python3 --version
+
+OUT
+/Library/Frameworks/Python.framework/Versions/3.12/bin/python3
+Python 3.12.1
+Bash Check Claude CLI configuration
+IN
+cat ~/.claude.json 2>/dev/null || echo "No Claude config found"
+
+OUT
+{
+  "installMethod": "native",
+  "autoUpdates": false,
+  "cachedGrowthBookFeatures": {
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu_mcp_tool_search": false,
+    "tengu_scratch": false,
+    "tengu_brass_pebble": false,
+    "tengu_event_sampling_config": {},
+    "tengu_tool_pear": false,
+    "tengu_log_segment_events": false,
+    "tengu_log_datadog_events": true,
+    "tengu_keybinding_customization": false,
+    "tengu_thinkback": false,
+    "tengu_disable_bypass_permissions_mode": false,
+    "tengu_claudeai_mcp_connectors": false,
+    "tengu_pid_based_version_locking": true,
+    "tengu_vscode_review_upsell": false,
+    "tengu_vscode_onboarding": false,
+    "tengu_c4w_usage_limit_notifications_enabled": true,
+    "enhanced_telemetry_beta": false,
+    "tengu_streaming_tool_execution2": false,
+    "tengu_tool_search_unsupported_models": [
+      "haiku"
+    ],
+    "tengu_plan_mode_interview_phase": false,
+    "tengu_attribution_header": false,
+    "tengu_bash_haiku_prefetch": false
+  },
+  "userID": "dbfb418cb99798556802a60c63dce6253df511fca54c50186ed2bd6b50380630",
+  "firstStartTime": "2026-01-23T04:49:47.355Z",
+  "sonnet45MigrationComplete": true,
+  "opus45MigrationComplete": true,
+  "opusProMigrationComplete": true,
+  "thinkingMigrationComplete": true,
+  "cachedChromeExtensionInstalled": false,
+  "changelogLastFetched": 1769143787483,
+  "autoUpdatesProtectedForNative": true,
+  "oauthAccount": {
+    "accountUuid": "4800b56b-6b23-4850-90e3-c5301b6bcb0e",
+    "emailAddress": "alex@solvdllc.com",
+    "organizationUuid": "4459cff5-d19d-4c10-8f3a-2f039ee6180f",
+    "hasExtraUsageEnabled": false,
+    "billingType": "stripe_subscription",
+    "displayName": "Alex"
+  }
+}
+Bash Check for existing Claude agents
+IN
+ls ~/.claude/agents 2>/dev/null || echo "No agents directory found"
+
+OUT
+No agents directory found
+Good! Now I have the environment information:
+
+Node.js v25.2.1 is installed
+Python 3.12.1 is installed
+Claude CLI is configured with OAuth account
+No existing agents directory (we'll need to create custom agents)
+No package.json in the directory (it's just the demo tsx file)
+The user has:
+
+A working React TSX demo that shows hardcoded outputs
+Node.js and Python available for running scripts
+Claude Code configured and ready
+Now I need to ask if there are any other commands they want me to run, and then create a comprehensive plan for an improved demo.
+
+Based on the research, the improved demo could:
+
+Option A: Enhance the existing TSX demo to actually call APIs (using Node.js backend)
+Option B: Create a working prototype in VS Code that uses Claude agents and MCP servers
+Option C: Build a CLI tool that runs the agent pipeline locally
+I should ask the user which direction they prefer, then create a detailed plan.
+
+Great! Your environment is ready:
+
+✅ Node.js v25.2.1 installed
+✅ Python 3.12.1 installed
+✅ Claude Code configured with your SOLVD account
+ℹ️ No existing agent directory (we'll create custom agents)
+ℹ️ No package.json (we'll set up project structure)
+What I Need From You
+Before I create the plan, I need to understand your priorities:
+
+AskUserQuestion
+OUT
+User has answered your questions: "What type of improved demo do you want to build?"="Enhanced React App (Recommended)", "Do you already have access to these services, or do we need to plan for alternatives?"="Salesforce API access", "What additional files would help with the implementation?"="Slide deck PDFs, Prompts for outreach, Example emails/scripts". You can now continue with the user's answers in mind.
+Perfect! The user wants:1. Enhanced React App - Improve the existing TSX demo with actual functionality
+2. Has Salesforce API access - Can pull historical data (but NOT Apollo.io, n8n, or Google Workspace yet)
+3. Wants to provide: Slide deck PDFs, prompts for outreach, example emails/scriptsThis gives me a clear direction:- Build an enhanced React app with a Node.js/Express backend
+
+Use Claude Code agents for the AI pipeline
+Use WebFetch + custom scraping for company data (since no Apollo.io)
+Use Salesforce API for historical engagement data
+Generate outputs locally (no Google Drive API yet)
+Create a working prototype that demonstrates the full capability
+Now I need to create a comprehensive plan that:
+
+Sets up the project structure (React frontend + Node.js backend)
+Creates specialized AI agents (Research, Fact-Check, Email, Loom, Slide generators)
+Implements web scraping for company websites
+Integrates Salesforce API for historical data
+Orchestrates the agent pipeline
+Generates the three output types (email, loom script, slides)
+Uses the user's existing prompts and templates when they provide them
+Let me create the plan file now.
+
+Perfect! Now I'll create a comprehensive plan for an enhanced React app with real AI agent functionality.
+
+Write sequential-crunching-cascade.md
+660 lines
+# ASOE Enhanced Demo Implementation Plan
+
+## Executive Summary
+
+Transform the current hardcoded React demo into a fully functional AI-powered sales outreach system that:
+- Scrapes company websites in real-time
+- Analyzes company data using specialized AI agents
+- Generates personalized emails, Loom scripts, and slide content
+- Integrates with Salesforce for historical engagement data
+- Works as a standalone web application (bridge to full production system)
+
+**Tech Stack**: React + Node.js/Express backend + Claude AI agents + Salesforce API
+
+---
+
+## Current State Analysis
+
+**What We Have:**
+- [asoe_demo_app.tsx](asoe_demo_app.tsx) - React UI with hardcoded Vercel outputs
+- Three workflow types: Net New, Closed Lost, Expansion
+- Well-designed UI for input forms and output preview
+- Clear vision document in [ASOE_Demo_AsanaTask.txt](ASOE_Demo_AsanaTask.txt)
+
+**What's Missing:**
+- Actual AI agent pipeline
+- Web scraping capability
+- Dynamic content generation
+- Backend API to orchestrate agents
+- Salesforce integration
+
+**Environment Ready:**
+- ✅ Node.js v25.2.1
+- ✅ Python 3.12.1
+- ✅ Claude Code configured
+- ✅ Salesforce API access available
+
+---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ React Frontend (Enhanced asoe_demo_app.tsx)            │
+│ - Three workflow forms (Net New, Closed Lost, Expansion)│
+│ - Real-time progress indicators                         │
+│ - Editable output preview                               │
+└────────────────┬────────────────────────────────────────┘
+                 ↓ HTTP POST /api/generate
+┌─────────────────────────────────────────────────────────┐
+│ Node.js/Express Backend (server.js)                     │
+│ - Receives form data                                    │
+│ - Orchestrates agent pipeline                           │
+│ - Returns generated assets                              │
+└────────────────┬────────────────────────────────────────┘
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│ AI Agent Pipeline (Claude Code Agents)                  │
+│                                                          │
+│ 1. Web Scraper Agent                                    │
+│    - Fetches company website                            │
+│    - Extracts key information                           │
+│    - Identifies tech stack, recent news                 │
+│                                                          │
+│ 2. Salesforce Enrichment Agent (if applicable)         │
+│    - Queries Salesforce for past engagement             │
+│    - Retrieves health scores, project history           │
+│                                                          │
+│ 3. Research Agent                                       │
+│    - Analyzes scraped + Salesforce data                 │
+│    - Identifies key talking points                      │
+│    - Maps to SOLVD frameworks                           │
+│                                                          │
+│ 4. Fact-Check Agent                                     │
+│    - Validates all claims                               │
+│    - Assigns confidence scores                          │
+│    - Flags uncertain statements                         │
+│                                                          │
+│ 5. Parallel Content Generators:                        │
+│    ├─ Email Generator                                   │
+│    ├─ Loom Script Generator                             │
+│    └─ Slide Content Generator                           │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│ Output                                                   │
+│ - Email draft (subject + body)                          │
+│ - Loom script (timestamped, 90 seconds)                 │
+│ - Slide content (Problem, Reality, Shift framework)     │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Implementation Phases
+
+### Phase 1: Project Setup & Structure
+
+**Create project structure:**
+```
+/Users/alexmerrifield/Developer/SOLVD/ASOE Demo/
+├── frontend/
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── index.html
+│   └── src/
+│       ├── App.tsx (enhanced from asoe_demo_app.tsx)
+│       ├── components/
+│       │   ├── WorkflowForm.tsx
+│       │   ├── OutputPreview.tsx
+│       │   └── ProgressIndicator.tsx
+│       └── api/
+│           └── client.ts
+│
+├── backend/
+│   ├── package.json
+│   ├── server.js (Express API)
+│   ├── routes/
+│   │   └── generate.js
+│   ├── agents/
+│   │   ├── orchestrator.js
+│   │   ├── webScraper.js
+│   │   ├── salesforceEnricher.js
+│   │   ├── researcher.js
+│   │   ├── factChecker.js
+│   │   └── generators/
+│   │       ├── emailGenerator.js
+│   │       ├── loomGenerator.js
+│   │       └── slideGenerator.js
+│   ├── prompts/
+│   │   ├── research.md
+│   │   ├── fact-check.md
+│   │   ├── email.md
+│   │   ├── loom.md
+│   │   └── slide.md
+│   └── integrations/
+│       └── salesforce.js
+│
+├── .env.example
+├── .env (user creates with API keys)
+├── README.md
+└── package.json (root workspace config)
+```
+
+**Dependencies to install:**
+- Frontend: React, Vite, Tailwind CSS, Axios, Lucide React
+- Backend: Express, Anthropic SDK, jsforce (Salesforce), cheerio (HTML parsing), axios
+
+**Critical Files:**
+- [backend/server.js](backend/server.js) - Express API server
+- [backend/agents/orchestrator.js](backend/agents/orchestrator.js) - Main agent pipeline coordinator
+- [frontend/src/App.tsx](frontend/src/App.tsx) - Enhanced React UI
+
+---
+
+### Phase 2: Backend AI Agent Pipeline
+
+**Agent 1: Web Scraper Agent**
+- Input: Company website URL
+- Process:
+  - Use WebFetch or axios to retrieve HTML
+  - Parse with cheerio to extract:
+    - Company description
+    - Product/service offerings
+    - Recent news/announcements
+    - Technology indicators
+  - Structure data as JSON
+- Output: `companyProfile` object
+
+**Agent 2: Salesforce Enrichment Agent**
+- Input: Company name
+- Process:
+  - Query Salesforce API using jsforce
+  - Retrieve:
+    - Past opportunities (won/lost)
+    - Engagement history
+    - Health scores
+    - Previous project details
+  - Only runs for "Closed Lost" and "Expansion" workflows
+- Output: `salesforceData` object
+
+**Agent 3: Research Agent**
+- Input: `companyProfile` + `salesforceData` + workflow type
+- Process:
+  - Use Claude Sonnet 4.5 to analyze combined data
+  - Identify key talking points relevant to workflow type
+  - Map company situation to SOLVD frameworks:
+    - Net New: Challenge business assumptions (e.g., "Hiring Internal is Safer")
+    - Closed Lost: Find "Black Swan" re-engagement trigger
+    - Expansion: Identify new pain points from company evolution
+- Output: `researchFindings` object with structured insights
+
+**Agent 4: Fact-Check Agent**
+- Input: `researchFindings`
+- Process:
+  - Use Claude Sonnet 4.5 to validate each claim
+  - Use WebSearch to verify external facts
+  - Assign confidence scores (High/Medium/Low)
+  - Flag statements that need manual review
+- Output: `validatedFacts` object with confidence scores
+
+**Agent 5-7: Parallel Content Generators**
+
+**Email Generator:**
+- Input: `validatedFacts` + workflow type + user's example emails
+- Process:
+  - Use Claude Sonnet 4.5 with custom prompt template
+  - Generate subject line and body
+  - Reference specific validated facts
+  - Follow user's tone/style from examples
+- Output: Email draft
+
+**Loom Script Generator:**
+- Input: `validatedFacts` + workflow type + user's example scripts
+- Process:
+  - Use Claude Sonnet 4.5 with timestamped script template
+  - Structure as 90-second video outline
+  - Include camera on/off cues
+  - Reference specific slides
+- Output: Loom script
+
+**Slide Content Generator:**
+- Input: `validatedFacts` + workflow type + user's slide deck PDFs
+- Process:
+  - Use Claude Sonnet 4.5 to generate slide content
+  - Follow "Problem → Reality → Shift" framework
+  - Extract style/structure from user's PDFs
+  - Generate bullet points ready to paste
+- Output: Slide content (structured JSON)
+
+**Orchestrator Logic:**
+```javascript
+async function generateOutreachAssets(formData, workflowType) {
+  // Step 1: Scrape website
+  const companyProfile = await webScraperAgent.scrape(formData.website);
+
+  // Step 2: Enrich with Salesforce (if applicable)
+  let salesforceData = null;
+  if (workflowType === 'closedlost' || workflowType === 'expansion') {
+    salesforceData = await salesforceEnricher.fetch(formData.companyName);
+  }
+
+  // Step 3: Research & analysis
+  const researchFindings = await researchAgent.analyze({
+    companyProfile,
+    salesforceData,
+    workflowType,
+    formData
+  });
+
+  // Step 4: Fact-check
+  const validatedFacts = await factCheckAgent.verify(researchFindings);
+
+  // Step 5: Generate content in parallel
+  const [email, loomScript, slideContent] = await Promise.all([
+    emailGenerator.generate(validatedFacts, workflowType),
+    loomGenerator.generate(validatedFacts, workflowType),
+    slideGenerator.generate(validatedFacts, workflowType)
+  ]);
+
+  // Step 6: Return complete asset package
+  return {
+    email,
+    loomScript,
+    slideContent,
+    metadata: {
+      companyName: formData.companyName,
+      workflowType,
+      generatedAt: new Date().toISOString(),
+      confidenceScores: validatedFacts.scores
+    }
+  };
+}
+```
+
+---
+
+### Phase 3: Frontend Enhancements
+
+**Enhanced Features:**
+
+1. **Real-time Progress Indicators**
+   - Show which agent is currently running
+   - Display status: "Scraping website...", "Analyzing data...", "Generating email..."
+   - Progress bar showing 6 total steps
+
+2. **Editable Output Preview**
+   - Allow users to edit generated content before saving
+   - Highlight low-confidence statements in yellow
+   - Show confidence scores on hover
+
+3. **Workflow-Specific Forms**
+   - Net New: Target company, website, industry, falsehood to challenge
+   - Closed Lost: Opportunity name, champion, loss reason, loss date, new context
+   - Expansion: Client name, previous project, new trigger, health score
+
+4. **Export Options**
+   - Copy all to clipboard
+   - Download as .txt file
+   - Email to self (future: Google Drive integration)
+
+**Updated React Components:**
+
+- [WorkflowForm.tsx](frontend/src/components/WorkflowForm.tsx) - Form with validation
+- [OutputPreview.tsx](frontend/src/components/OutputPreview.tsx) - Editable results with confidence indicators
+- [ProgressIndicator.tsx](frontend/src/components/ProgressIndicator.tsx) - Step-by-step progress display
+
+---
+
+### Phase 4: Salesforce Integration
+
+**Integration Details:**
+
+**Library:** jsforce (Node.js Salesforce client)
+
+**Authentication:**
+- OAuth 2.0 flow (recommended for production)
+- Or username/password + security token (for MVP)
+
+**Queries:**
+
+For **Closed Lost** workflow:
+```javascript
+// Find opportunity by name or company
+const opportunities = await conn.query(`
+  SELECT Id, Name, StageName, CloseDate, Description,
+         Account.Name, Loss_Reason__c
+  FROM Opportunity
+  WHERE Account.Name LIKE '%${companyName}%'
+  AND IsClosed = true AND IsWon = false
+  ORDER BY CloseDate DESC
+  LIMIT 5
+`);
+```
+
+For **Expansion** workflow:
+```javascript
+// Find active projects and health scores
+const projects = await conn.query(`
+  SELECT Id, Name, Health_Score__c, Start_Date__c,
+         Hours_Per_Month__c, Project_Type__c, Description
+  FROM Project__c
+  WHERE Account.Name = '${companyName}'
+  AND Status__c = 'Active'
+  ORDER BY Start_Date__c DESC
+`);
+```
+
+**Configuration:**
+```javascript
+// backend/integrations/salesforce.js
+const jsforce = require('jsforce');
+
+const conn = new jsforce.Connection({
+  loginUrl: process.env.SALESFORCE_LOGIN_URL,
+  version: '60.0'
+});
+
+await conn.login(
+  process.env.SALESFORCE_USERNAME,
+  process.env.SALESFORCE_PASSWORD + process.env.SALESFORCE_SECURITY_TOKEN
+);
+```
+
+**Environment Variables Required:**
+```
+SALESFORCE_LOGIN_URL=https://login.salesforce.com
+SALESFORCE_USERNAME=your-username
+SALESFORCE_PASSWORD=your-password
+SALESFORCE_SECURITY_TOKEN=your-token
+```
+
+---
+
+### Phase 5: Prompt Engineering & Templates
+
+**Location:** `backend/prompts/`
+
+**Templates to Create:**
+
+1. **research.md** - Research agent system prompt
+   - Analyzes company data and identifies key insights
+   - Maps to SOLVD frameworks
+   - Outputs structured findings
+
+2. **fact-check.md** - Fact-checking agent prompt
+   - Validates claims against web sources
+   - Assigns confidence scores
+   - Flags uncertain statements
+
+3. **email.md** - Email generation prompt
+   - Uses validated facts
+   - Follows user's tone from examples
+   - Structures with clear value prop
+
+4. **loom.md** - Loom script generation prompt
+   - 90-second timestamped format
+   - Camera on/off cues
+   - References slides
+
+5. **slide.md** - Slide content generation prompt
+   - Problem → Reality → Shift framework
+   - Bullet point format
+   - Based on user's deck style
+
+**User-Provided Materials Integration:**
+
+When user provides:
+- **Slide deck PDFs**: Extract text with pdf-parse library, use as style reference
+- **Prompts for outreach**: Store in `prompts/user-examples/` and reference in agent prompts
+- **Example emails/scripts**: Include as few-shot examples in generation prompts
+
+**Example Prompt Structure:**
+```markdown
+# Email Generator Agent
+
+You are an expert sales outreach writer for SOLVD, a Salesforce consultancy.
+
+## Your Task
+Generate a personalized outreach email based on validated research findings.
+
+## Input Data
+- Company profile: {companyProfile}
+- Validated facts: {validatedFacts}
+- Workflow type: {workflowType}
+- User's example style: {userExamples}
+
+## Output Format
+{
+  "subject": "Subject line that references specific company context",
+  "body": "Email body following the structure below"
+}
+
+## Email Structure
+1. Opening: Reference specific company context (1-2 sentences)
+2. The Gap: Identify the problem they're facing (2-3 sentences)
+3. The Solution: How SOLVD addresses this gap (3-4 sentences)
+4. The Ask: Clear next step (1-2 sentences)
+5. P.S.: Reference Loom video
+
+## Guidelines
+- Use only HIGH confidence facts in main body
+- Flag MEDIUM confidence facts with "(according to [source])"
+- Never use LOW confidence facts
+- Match tone from user's examples
+- Reference real company details, not generic statements
+- Keep email under 300 words
+
+## Example Style (from user)
+{userProvidedExample}
+
+Now generate the email.
+```
+
+---
+
+## Critical Files to Create/Modify
+
+### New Files (Priority Order):
+
+1. **backend/package.json** - Dependencies (Express, Anthropic SDK, jsforce, cheerio)
+2. **backend/server.js** - Express server with /api/generate endpoint
+3. **backend/agents/orchestrator.js** - Main pipeline coordinator
+4. **backend/agents/webScraper.js** - Website scraping logic
+5. **backend/agents/researcher.js** - Research analysis using Claude
+6. **backend/agents/factChecker.js** - Fact validation using Claude + WebSearch
+7. **backend/agents/generators/emailGenerator.js** - Email generation
+8. **backend/agents/generators/loomGenerator.js** - Loom script generation
+9. **backend/agents/generators/slideGenerator.js** - Slide content generation
+10. **backend/integrations/salesforce.js** - Salesforce API client
+11. **backend/prompts/research.md** - Research agent prompt
+12. **backend/prompts/fact-check.md** - Fact-check agent prompt
+13. **backend/prompts/email.md** - Email generator prompt
+14. **backend/prompts/loom.md** - Loom generator prompt
+15. **backend/prompts/slide.md** - Slide generator prompt
+
+### Modified Files:
+
+16. **asoe_demo_app.tsx** → **frontend/src/App.tsx** - Enhanced with API calls and progress indicators
+17. **README.md** - Setup instructions and architecture documentation
+
+---
+
+## Implementation Steps (Recommended Order)
+
+### Step 1: Project Initialization
+- Create frontend and backend directories
+- Initialize package.json for both
+- Install dependencies
+- Set up .env.example with required variables
+
+### Step 2: Backend Core
+- Create Express server with CORS
+- Set up /api/generate POST endpoint
+- Test with simple response
+
+### Step 3: Web Scraper Agent
+- Implement webScraper.js using axios + cheerio
+- Test with real company websites
+- Handle errors gracefully (404, timeouts)
+
+### Step 4: Salesforce Integration
+- Set up jsforce connection
+- Implement opportunity and project queries
+- Test with your Salesforce instance
+
+### Step 5: Prompt Templates
+- User provides slide decks, example prompts, emails/scripts
+- Create all 5 prompt template files
+- Incorporate user examples as few-shot learning
+
+### Step 6: AI Agent Pipeline
+- Implement researcher.js using Anthropic SDK
+- Implement factChecker.js with Claude + web search
+- Implement all three generators
+- Wire up orchestrator.js to call agents in sequence/parallel
+
+### Step 7: Frontend Integration
+- Migrate asoe_demo_app.tsx to Vite + TypeScript setup
+- Create API client (axios)
+- Add progress indicators
+- Wire up form submission to backend
+- Display real-time results
+
+### Step 8: Testing & Refinement
+- Test all three workflows end-to-end
+- Verify output quality against hardcoded examples
+- Adjust prompts based on results
+- Add confidence score indicators
+
+### Step 9: Polish
+- Add export functionality
+- Error handling and user feedback
+- Loading states and animations
+- Documentation for setup and usage
+
+---
+
+## Verification Plan
+
+### How to Test End-to-End:
+
+**Test Case 1: Net New Prospecting**
+1. Input: Company name "Vercel", website "https://vercel.com", industry "SaaS/High Tech"
+2. Expected: Web scraper extracts Vercel info, generates cold outreach challenging assumptions
+3. Verify: Email references real Vercel details, Loom script is 90 seconds, slides follow framework
+
+**Test Case 2: Closed Lost Deal**
+1. Input: Opportunity name from Salesforce, loss reason "Price"
+2. Expected: Salesforce query retrieves opportunity details, finds "Black Swan" re-engagement angle
+3. Verify: Email references past engagement, new context triggers re-engagement
+
+**Test Case 3: Past Client Expansion**
+1. Input: Existing client "Vercel", previous project details
+2. Expected: Salesforce retrieves active project, identifies expansion opportunity (migration intelligence)
+3. Verify: Email builds on existing relationship, slide content tailored to new trigger
+
+**Success Criteria:**
+- All three workflows generate outputs in under 60 seconds
+- Fact-check agent flags at least 1-2 claims for validation
+- Generated content includes specific company details (not generic)
+- Confidence scores accurately reflect certainty
+- Output quality matches or exceeds hardcoded demo
+
+---
+
+## Limitations & Future Enhancements
+
+### Current Limitations:
+
+1. **No Apollo.io Integration** - Using web scraping instead of enriched contact data
+2. **No Google Drive Output** - Generates text locally, user copies manually
+3. **No Slack Integration** - Standalone web app, not workflow-triggered
+4. **No n8n Orchestration** - Runs locally, not production-grade scheduling
+5. **Limited Slide Generation** - Text content only, no visual design
+
+### Future Enhancements (Post-Demo):
+
+**Phase 2 Features:**
+- Add Apollo.io MCP server for contact enrichment
+- Implement Google Drive API for auto-creating docs/slides
+- Add export to Google Slides with formatting
+
+**Phase 3 Features:**
+- Slack webhook integration for form submissions
+- n8n workflow orchestration
+- Background processing queue
+- Email sending capability (Gmail API)
+
+**Phase 4 Features:**
+- White-label for clients as EaaSe add-on
+- Multi-user support with authentication
+- Analytics dashboard (response rates, conversion tracking)
+- A/B testing for outreach copy
+
+---
+
+## Resources Needed from User
+
+**Before Starting Implementation:**
+
+1. **Slide Deck PDFs**
+   - Your current pitch deck with "Complexity Wall" or similar frameworks
+   - Helps AI match your visual and messaging style
+
+2. **Prompts for Outreach**
+   - Your existing Gemini prompts that work well
+   - Any prompt templates you've refined
+
+3. **Example Emails & Loom Scripts**
+   - 2-3 examples of successful outreach emails
+   - 1-2 Loom script examples (if available)
+   - Helps AI match your tone and structure
+
+4. **Salesforce Access Details**
+   - Username, password, security token
+   - Custom field names (e.g., `Loss_Reason__c`, `Health_Score__c`)
+   - Sample opportunity/project records for testing
+
+**During Implementation:**
+- Feedback on generated output quality
+- Refinements to prompts based on results
+- Additional examples as needed
+
+---
+
+## Estimated Timeline
+
+**With focused effort:**
+
+- **Phase 1**: Project setup - 2 hours
+- **Phase 2**: Backend agent pipeline - 8 hours
+- **Phase 3**: Frontend enhancements - 4 hours
+- **Phase 4**: Salesforce integration - 3 hours
+- **Phase 5**: Prompt engineering - 2 hours (after receiving user materials)
+- **Testing & Refinement**: 3 hours
+
+**Total: 22 hours (~3 days of dedicated work)**
+
+This gives you a production-ready demo that:
+- Actually scrapes websites and generates content
+- Integrates with your Salesforce data
+- Produces high-quality, personalized outreach assets
+- Serves as a bridge to the full n8n/Slack production system
+
+---
+
+## Next Actions
+
+1. **User provides resources**: Slide decks, prompts, example emails/scripts
+2. **Initialize project structure**: Create directories, package.json files
+3. **Set up .env with API keys**: Anthropic API key, Salesforce credentials
+4. **Build backend pipeline**: Web scraper → Researcher → Fact-checker → Generators
+5. **Enhance frontend**: API integration, progress indicators, editable outputs
+6. **Test end-to-end**: Run all three workflows with real data
+7. **Iterate on prompts**: Refine based on output quality
+8. **Deploy demo**: Host on Vercel/Netlify for easy sharing
+
+**Ready to proceed when you provide the additional materials and approve this plan.**
+Perfect! I've created a comprehensive plan. Now I should call ExitPlanMode to signal that I'm done planning and ready for user approval. The plan includes:
+
+Clear architecture overview
+Detailed implementation phases
+File structure and critical files to create
+Agent pipeline design
+Salesforce integration details
+Prompt engineering approach
+Verification plan
+Limitations and future enhancements
+Resources needed from the user
+Estimated timeline
+The user asked me to let them know of any commands I might need to execute - I've already executed the environment checks. Now I should exit plan mode and wait for their approval.
+
+Perfect! I've created a comprehensive implementation plan. Here's what I've designed:
+
+Plan Summary
+Goal: Transform your hardcoded React demo into a fully functional AI-powered sales outreach system
+
+Architecture:
+
+Frontend: Enhanced React app (from your existing TSX file)
+Backend: Node.js/Express API that orchestrates AI agents
+AI Pipeline: 6 specialized agents (Web Scraper → Salesforce Enricher → Researcher → Fact-Checker → 3 Parallel Generators)
+Integration: Salesforce API for historical data
+Key Features:
+
+Real-time website scraping for company intelligence
+Salesforce integration for past engagement data
+AI agents that analyze, validate, and generate content
+Three workflow types fully functional (Net New, Closed Lost, Expansion)
+Confidence scores on generated content
+Editable outputs before use
+What Makes It Work:
+
+Uses Claude Sonnet 4.5 for all agent tasks
+Web scraping with axios + cheerio (no Apollo.io needed yet)
+Parallel content generation (email, Loom script, slides simultaneously)
+Your existing prompts and examples integrated as few-shot learning
+Timeline: ~22 hours of work (3 focused days)
+
+What I Need From You:
+
+Slide deck PDFs (for style reference)
+Your existing Gemini prompts that work well
+Example successful emails and Loom scripts
+Salesforce credentials (username, password, security token)
+The full plan is saved at: /Users/alexmerrifield/.claude/plans/sequential-crunching-cascade.md
+
+Claude’s Plan
+ASOE Enhanced Demo Implementation Plan
+Executive Summary
+Transform the current hardcoded React demo into a fully functional AI-powered sales outreach system that:
+
+Scrapes company websites in real-time
+Analyzes company data using specialized AI agents
+Generates personalized emails, Loom scripts, and slide content
+Integrates with Salesforce for historical engagement data
+Works as a standalone web application (bridge to full production system)
+Tech Stack: React + Node.js/Express backend + Claude AI agents + Salesforce API
+
+Current State Analysis
+What We Have:
+
+asoe_demo_app.tsx - React UI with hardcoded Vercel outputs
+Three workflow types: Net New, Closed Lost, Expansion
+Well-designed UI for input forms and output preview
+Clear vision document in ASOE_Demo_AsanaTask.txt
+What's Missing:
+
+Actual AI agent pipeline
+Web scraping capability
+Dynamic content generation
+Backend API to orchestrate agents
+Salesforce integration
+Environment Ready:
+
+✅ Node.js v25.2.1
+✅ Python 3.12.1
+✅ Claude Code configured
+✅ Salesforce API access available
+Architecture Overview
+
+┌─────────────────────────────────────────────────────────┐
+│ React Frontend (Enhanced asoe_demo_app.tsx)            │
+│ - Three workflow forms (Net New, Closed Lost, Expansion)│
+│ - Real-time progress indicators                         │
+│ - Editable output preview                               │
+└────────────────┬────────────────────────────────────────┘
+                 ↓ HTTP POST /api/generate
+┌─────────────────────────────────────────────────────────┐
+│ Node.js/Express Backend (server.js)                     │
+│ - Receives form data                                    │
+│ - Orchestrates agent pipeline                           │
+│ - Returns generated assets                              │
+└────────────────┬────────────────────────────────────────┘
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│ AI Agent Pipeline (Claude Code Agents)                  │
+│                                                          │
+│ 1. Web Scraper Agent                                    │
+│    - Fetches company website                            │
+│    - Extracts key information                           │
+│    - Identifies tech stack, recent news                 │
+│                                                          │
+│ 2. Salesforce Enrichment Agent (if applicable)         │
+│    - Queries Salesforce for past engagement             │
+│    - Retrieves health scores, project history           │
+│                                                          │
+│ 3. Research Agent                                       │
+│    - Analyzes scraped + Salesforce data                 │
+│    - Identifies key talking points                      │
+│    - Maps to SOLVD frameworks                           │
+│                                                          │
+│ 4. Fact-Check Agent                                     │
+│    - Validates all claims                               │
+│    - Assigns confidence scores                          │
+│    - Flags uncertain statements                         │
+│                                                          │
+│ 5. Parallel Content Generators:                        │
+│    ├─ Email Generator                                   │
+│    ├─ Loom Script Generator                             │
+│    └─ Slide Content Generator                           │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│ Output                                                   │
+│ - Email draft (subject + body)                          │
+│ - Loom script (timestamped, 90 seconds)                 │
+│ - Slide content (Problem, Reality, Shift framework)     │
+└─────────────────────────────────────────────────────────┘
+Implementation Phases
+Phase 1: Project Setup & Structure
+Create project structure:
+
+
+/Users/alexmerrifield/Developer/SOLVD/ASOE Demo/
+├── frontend/
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── index.html
+│   └── src/
+│       ├── App.tsx (enhanced from asoe_demo_app.tsx)
+│       ├── components/
+│       │   ├── WorkflowForm.tsx
+│       │   ├── OutputPreview.tsx
+│       │   └── ProgressIndicator.tsx
+│       └── api/
+│           └── client.ts
+│
+├── backend/
+│   ├── package.json
+│   ├── server.js (Express API)
+│   ├── routes/
+│   │   └── generate.js
+│   ├── agents/
+│   │   ├── orchestrator.js
+│   │   ├── webScraper.js
+│   │   ├── salesforceEnricher.js
+│   │   ├── researcher.js
+│   │   ├── factChecker.js
+│   │   └── generators/
+│   │       ├── emailGenerator.js
+│   │       ├── loomGenerator.js
+│   │       └── slideGenerator.js
+│   ├── prompts/
+│   │   ├── research.md
+│   │   ├── fact-check.md
+│   │   ├── email.md
+│   │   ├── loom.md
+│   │   └── slide.md
+│   └── integrations/
+│       └── salesforce.js
+│
+├── .env.example
+├── .env (user creates with API keys)
+├── README.md
+└── package.json (root workspace config)
+Dependencies to install:
+
+Frontend: React, Vite, Tailwind CSS, Axios, Lucide React
+Backend: Express, Anthropic SDK, jsforce (Salesforce), cheerio (HTML parsing), axios
+Critical Files:
+
+backend/server.js - Express API server
+backend/agents/orchestrator.js - Main agent pipeline coordinator
+frontend/src/App.tsx - Enhanced React UI
+Phase 2: Backend AI Agent Pipeline
+Agent 1: Web Scraper Agent
+
+Input: Company website URL
+Process:
+Use WebFetch or axios to retrieve HTML
+Parse with cheerio to extract:
+Company description
+Product/service offerings
+Recent news/announcements
+Technology indicators
+Structure data as JSON
+Output: companyProfile object
+Agent 2: Salesforce Enrichment Agent
+
+Input: Company name
+Process:
+Query Salesforce API using jsforce
+Retrieve:
+Past opportunities (won/lost)
+Engagement history
+Health scores
+Previous project details
+Only runs for "Closed Lost" and "Expansion" workflows
+Output: salesforceData object
+Agent 3: Research Agent
+
+Input: companyProfile + salesforceData + workflow type
+Process:
+Use Claude Sonnet 4.5 to analyze combined data
+Identify key talking points relevant to workflow type
+Map company situation to SOLVD frameworks:
+Net New: Challenge business assumptions (e.g., "Hiring Internal is Safer")
+Closed Lost: Find "Black Swan" re-engagement trigger
+Expansion: Identify new pain points from company evolution
+Output: researchFindings object with structured insights
+Agent 4: Fact-Check Agent
+
+Input: researchFindings
+Process:
+Use Claude Sonnet 4.5 to validate each claim
+Use WebSearch to verify external facts
+Assign confidence scores (High/Medium/Low)
+Flag statements that need manual review
+Output: validatedFacts object with confidence scores
+Agent 5-7: Parallel Content Generators
+
+Email Generator:
+
+Input: validatedFacts + workflow type + user's example emails
+Process:
+Use Claude Sonnet 4.5 with custom prompt template
+Generate subject line and body
+Reference specific validated facts
+Follow user's tone/style from examples
+Output: Email draft
+Loom Script Generator:
+
+Input: validatedFacts + workflow type + user's example scripts
+Process:
+Use Claude Sonnet 4.5 with timestamped script template
+Structure as 90-second video outline
+Include camera on/off cues
+Reference specific slides
+Output: Loom script
+Slide Content Generator:
+
+Input: validatedFacts + workflow type + user's slide deck PDFs
+Process:
+Use Claude Sonnet 4.5 to generate slide content
+Follow "Problem → Reality → Shift" framework
+Extract style/structure from user's PDFs
+Generate bullet points ready to paste
+Output: Slide content (structured JSON)
+Orchestrator Logic:
+
+
+async function generateOutreachAssets(formData, workflowType) {
+  // Step 1: Scrape website
+  const companyProfile = await webScraperAgent.scrape(formData.website);
+
+  // Step 2: Enrich with Salesforce (if applicable)
+  let salesforceData = null;
+  if (workflowType === 'closedlost' || workflowType === 'expansion') {
+    salesforceData = await salesforceEnricher.fetch(formData.companyName);
+  }
+
+  // Step 3: Research & analysis
+  const researchFindings = await researchAgent.analyze({
+    companyProfile,
+    salesforceData,
+    workflowType,
+    formData
+  });
+
+  // Step 4: Fact-check
+  const validatedFacts = await factCheckAgent.verify(researchFindings);
+
+  // Step 5: Generate content in parallel
+  const [email, loomScript, slideContent] = await Promise.all([
+    emailGenerator.generate(validatedFacts, workflowType),
+    loomGenerator.generate(validatedFacts, workflowType),
+    slideGenerator.generate(validatedFacts, workflowType)
+  ]);
+
+  // Step 6: Return complete asset package
+  return {
+    email,
+    loomScript,
+    slideContent,
+    metadata: {
+      companyName: formData.companyName,
+      workflowType,
+      generatedAt: new Date().toISOString(),
+      confidenceScores: validatedFacts.scores
+    }
+  };
+}
+Phase 3: Frontend Enhancements
+Enhanced Features:
+
+Real-time Progress Indicators
+
+Show which agent is currently running
+Display status: "Scraping website...", "Analyzing data...", "Generating email..."
+Progress bar showing 6 total steps
+Editable Output Preview
+
+Allow users to edit generated content before saving
+Highlight low-confidence statements in yellow
+Show confidence scores on hover
+Workflow-Specific Forms
+
+Net New: Target company, website, industry, falsehood to challenge
+Closed Lost: Opportunity name, champion, loss reason, loss date, new context
+Expansion: Client name, previous project, new trigger, health score
+Export Options
+
+Copy all to clipboard
+Download as .txt file
+Email to self (future: Google Drive integration)
+Updated React Components:
+
+WorkflowForm.tsx - Form with validation
+OutputPreview.tsx - Editable results with confidence indicators
+ProgressIndicator.tsx - Step-by-step progress display
+Phase 4: Salesforce Integration
+Integration Details:
+
+Library: jsforce (Node.js Salesforce client)
+
+Authentication:
+
+OAuth 2.0 flow (recommended for production)
+Or username/password + security token (for MVP)
+Queries:
+
+For Closed Lost workflow:
+
+
+// Find opportunity by name or company
+const opportunities = await conn.query(`
+  SELECT Id, Name, StageName, CloseDate, Description,
+         Account.Name, Loss_Reason__c
+  FROM Opportunity
+  WHERE Account.Name LIKE '%${companyName}%'
+  AND IsClosed = true AND IsWon = false
+  ORDER BY CloseDate DESC
+  LIMIT 5
+`);
+For Expansion workflow:
+
+
+// Find active projects and health scores
+const projects = await conn.query(`
+  SELECT Id, Name, Health_Score__c, Start_Date__c,
+         Hours_Per_Month__c, Project_Type__c, Description
+  FROM Project__c
+  WHERE Account.Name = '${companyName}'
+  AND Status__c = 'Active'
+  ORDER BY Start_Date__c DESC
+`);
+Configuration:
+
+
+// backend/integrations/salesforce.js
+const jsforce = require('jsforce');
+
+const conn = new jsforce.Connection({
+  loginUrl: process.env.SALESFORCE_LOGIN_URL,
+  version: '60.0'
+});
+
+await conn.login(
+  process.env.SALESFORCE_USERNAME,
+  process.env.SALESFORCE_PASSWORD + process.env.SALESFORCE_SECURITY_TOKEN
+);
+Environment Variables Required:
+
+
+SALESFORCE_LOGIN_URL=https://login.salesforce.com
+SALESFORCE_USERNAME=your-username
+SALESFORCE_PASSWORD=your-password
+SALESFORCE_SECURITY_TOKEN=your-token
+Phase 5: Prompt Engineering & Templates
+Location: backend/prompts/
+
+Templates to Create:
+
+research.md - Research agent system prompt
+
+Analyzes company data and identifies key insights
+Maps to SOLVD frameworks
+Outputs structured findings
+fact-check.md - Fact-checking agent prompt
+
+Validates claims against web sources
+Assigns confidence scores
+Flags uncertain statements
+email.md - Email generation prompt
+
+Uses validated facts
+Follows user's tone from examples
+Structures with clear value prop
+loom.md - Loom script generation prompt
+
+90-second timestamped format
+Camera on/off cues
+References slides
+slide.md - Slide content generation prompt
+
+Problem → Reality → Shift framework
+Bullet point format
+Based on user's deck style
+User-Provided Materials Integration:
+
+When user provides:
+
+Slide deck PDFs: Extract text with pdf-parse library, use as style reference
+Prompts for outreach: Store in prompts/user-examples/ and reference in agent prompts
+Example emails/scripts: Include as few-shot examples in generation prompts
+Example Prompt Structure:
+
+
+# Email Generator Agent
+
+You are an expert sales outreach writer for SOLVD, a Salesforce consultancy.
+
+## Your Task
+Generate a personalized outreach email based on validated research findings.
+
+## Input Data
+- Company profile: {companyProfile}
+- Validated facts: {validatedFacts}
+- Workflow type: {workflowType}
+- User's example style: {userExamples}
+
+## Output Format
+{
+  "subject": "Subject line that references specific company context",
+  "body": "Email body following the structure below"
+}
+
+## Email Structure
+1. Opening: Reference specific company context (1-2 sentences)
+2. The Gap: Identify the problem they're facing (2-3 sentences)
+3. The Solution: How SOLVD addresses this gap (3-4 sentences)
+4. The Ask: Clear next step (1-2 sentences)
+5. P.S.: Reference Loom video
+
+## Guidelines
+- Use only HIGH confidence facts in main body
+- Flag MEDIUM confidence facts with "(according to [source])"
+- Never use LOW confidence facts
+- Match tone from user's examples
+- Reference real company details, not generic statements
+- Keep email under 300 words
+
+## Example Style (from user)
+{userProvidedExample}
+
+Now generate the email.
+Critical Files to Create/Modify
+New Files (Priority Order):
+backend/package.json - Dependencies (Express, Anthropic SDK, jsforce, cheerio)
+backend/server.js - Express server with /api/generate endpoint
+backend/agents/orchestrator.js - Main pipeline coordinator
+backend/agents/webScraper.js - Website scraping logic
+backend/agents/researcher.js - Research analysis using Claude
+backend/agents/factChecker.js - Fact validation using Claude + WebSearch
+backend/agents/generators/emailGenerator.js - Email generation
+backend/agents/generators/loomGenerator.js - Loom script generation
+backend/agents/generators/slideGenerator.js - Slide content generation
+backend/integrations/salesforce.js - Salesforce API client
+backend/prompts/research.md - Research agent prompt
+backend/prompts/fact-check.md - Fact-check agent prompt
+backend/prompts/email.md - Email generator prompt
+backend/prompts/loom.md - Loom generator prompt
+backend/prompts/slide.md - Slide generator prompt
+Modified Files:
+asoe_demo_app.tsx → frontend/src/App.tsx - Enhanced with API calls and progress indicators
+README.md - Setup instructions and architecture documentation
+Implementation Steps (Recommended Order)
+Step 1: Project Initialization
+Create frontend and backend directories
+Initialize package.json for both
+Install dependencies
+Set up .env.example with required variables
+Step 2: Backend Core
+Create Express server with CORS
+Set up /api/generate POST endpoint
+Test with simple response
+Step 3: Web Scraper Agent
+Implement webScraper.js using axios + cheerio
+Test with real company websites
+Handle errors gracefully (404, timeouts)
+Step 4: Salesforce Integration
+Set up jsforce connection
+Implement opportunity and project queries
+Test with your Salesforce instance
+Step 5: Prompt Templates
+User provides slide decks, example prompts, emails/scripts
+Create all 5 prompt template files
+Incorporate user examples as few-shot learning
+Step 6: AI Agent Pipeline
+Implement researcher.js using Anthropic SDK
+Implement factChecker.js with Claude + web search
+Implement all three generators
+Wire up orchestrator.js to call agents in sequence/parallel
+Step 7: Frontend Integration
+Migrate asoe_demo_app.tsx to Vite + TypeScript setup
+Create API client (axios)
+Add progress indicators
+Wire up form submission to backend
+Display real-time results
+Step 8: Testing & Refinement
+Test all three workflows end-to-end
+Verify output quality against hardcoded examples
+Adjust prompts based on results
+Add confidence score indicators
+Step 9: Polish
+Add export functionality
+Error handling and user feedback
+Loading states and animations
+Documentation for setup and usage
+Verification Plan
+How to Test End-to-End:
+Test Case 1: Net New Prospecting
+
+Input: Company name "Vercel", website "https://vercel.com", industry "SaaS/High Tech"
+Expected: Web scraper extracts Vercel info, generates cold outreach challenging assumptions
+Verify: Email references real Vercel details, Loom script is 90 seconds, slides follow framework
+Test Case 2: Closed Lost Deal
+
+Input: Opportunity name from Salesforce, loss reason "Price"
+Expected: Salesforce query retrieves opportunity details, finds "Black Swan" re-engagement angle
+Verify: Email references past engagement, new context triggers re-engagement
+Test Case 3: Past Client Expansion
+
+Input: Existing client "Vercel", previous project details
+Expected: Salesforce retrieves active project, identifies expansion opportunity (migration intelligence)
+Verify: Email builds on existing relationship, slide content tailored to new trigger
+Success Criteria:
+
+All three workflows generate outputs in under 60 seconds
+Fact-check agent flags at least 1-2 claims for validation
+Generated content includes specific company details (not generic)
+Confidence scores accurately reflect certainty
+Output quality matches or exceeds hardcoded demo
+Limitations & Future Enhancements
+Current Limitations:
+No Apollo.io Integration - Using web scraping instead of enriched contact data
+No Google Drive Output - Generates text locally, user copies manually
+No Slack Integration - Standalone web app, not workflow-triggered
+No n8n Orchestration - Runs locally, not production-grade scheduling
+Limited Slide Generation - Text content only, no visual design
+Future Enhancements (Post-Demo):
+Phase 2 Features:
+
+Add Apollo.io MCP server for contact enrichment
+Implement Google Drive API for auto-creating docs/slides
+Add export to Google Slides with formatting
+Phase 3 Features:
+
+Slack webhook integration for form submissions
+n8n workflow orchestration
+Background processing queue
+Email sending capability (Gmail API)
+Phase 4 Features:
+
+White-label for clients as EaaSe add-on
+Multi-user support with authentication
+Analytics dashboard (response rates, conversion tracking)
+A/B testing for outreach copy
+Resources Needed from User
+Before Starting Implementation:
+
+Slide Deck PDFs
+
+Your current pitch deck with "Complexity Wall" or similar frameworks
+Helps AI match your visual and messaging style
+Prompts for Outreach
+
+Your existing Gemini prompts that work well
+Any prompt templates you've refined
+Example Emails & Loom Scripts
+
+2-3 examples of successful outreach emails
+1-2 Loom script examples (if available)
+Helps AI match your tone and structure
+Salesforce Access Details
+
+Username, password, security token
+Custom field names (e.g., Loss_Reason__c, Health_Score__c)
+Sample opportunity/project records for testing
+During Implementation:
+
+Feedback on generated output quality
+Refinements to prompts based on results
+Additional examples as needed
+Estimated Timeline
+With focused effort:
+
+Phase 1: Project setup - 2 hours
+Phase 2: Backend agent pipeline - 8 hours
+Phase 3: Frontend enhancements - 4 hours
+Phase 4: Salesforce integration - 3 hours
+Phase 5: Prompt engineering - 2 hours (after receiving user materials)
+Testing & Refinement: 3 hours
+Total: 22 hours (~3 days of dedicated work)
+
+This gives you a production-ready demo that:
+
+Actually scrapes websites and generates content
+Integrates with your Salesforce data
+Produces high-quality, personalized outreach assets
+Serves as a bridge to the full n8n/Slack production system
+Next Actions
+User provides resources: Slide decks, prompts, example emails/scripts
+Initialize project structure: Create directories, package.json files
+Set up .env with API keys: Anthropic API key, Salesforce credentials
+Build backend pipeline: Web scraper → Researcher → Fact-checker → Generators
+Enhance frontend: API integration, progress indicators, editable outputs
+Test end-to-end: Run all three workflows with real data
+Iterate on prompts: Refine based on output quality
+Deploy demo: Host on Vercel/Netlify for easy sharing
+Ready to proceed when you provide the additional materials and approve this plan.
+
+User approved the plan
+Great! The plan has been approved. Now I should create a todo list to track the implementation progress and let the user know what the next steps are.
+
+Based on the plan, the immediate next steps are:
+
+Wait for user to provide resources (slide decks, prompts, examples)
+Set up project structure
+Start building the backend
+Let me create a todo list and communicate clearly with the user about what happens next.
+
+Excellent! Your plan is approved. Let me set up a tracking system for implementation.
+
+Update Todos
+
+Receive resources from user (slide decks, prompts, example emails/scripts)
+
+Initialize project structure (frontend & backend directories)
+
+Set up package.json files and install dependencies
+
+Create .env.example and configure environment variables
+
+Build Express server with /api/generate endpoint
+
+Implement web scraper agent (axios + cheerio)
+
+Set up Salesforce integration (jsforce)
+
+Create prompt templates (research, fact-check, email, loom, slide)
+
+Implement AI agent pipeline (researcher, fact-checker, generators)
+
+Build orchestrator to coordinate agents
+
+Enhance React frontend with API integration
+
+Add progress indicators and editable outputs
+
+Test all three workflows end-to-end
+
+Refine prompts based on output quality
+
+Add export functionality and polish UI
+Perfect! I've created the todo list to track our progress. Now I need to communicate clearly with the user about what happens next. The first task is to receive resources from them (slide decks, prompts, examples). I should make it clear what I need and how to provide it.
+
+Perfect! I've created a tracking system with 15 tasks for the implementation.
+
+What Happens Next
+Immediate Actions Needed from You:
+Please provide the following materials so I can tailor the AI agents to your style:
+
+Slide Deck PDFs
+
+Upload or drag-and-drop your current pitch deck
+I'll extract the "Complexity Wall" or similar framework structure
+This helps the AI match your messaging style
+Prompts for Outreach
+
+Share the Gemini prompts you've been using successfully
+Can be text files, docs, or just pasted in chat
+These become the foundation for our agent prompts
+Example Emails & Loom Scripts
+
+2-3 successful outreach emails you've sent
+1-2 Loom script examples (if available)
+Shows the AI your tone, structure, and what works
+How to Provide Them:
+You can either:
+
+Drag and drop files directly into this chat
+Upload them to the /Users/alexmerrifield/Developer/SOLVD/ASOE Demo/ folder and let me know
+Paste the content directly if they're text-based
+What I'll Do Once I Have Them:
+Extract key patterns from your materials
+Build the 5 prompt templates incorporating your style
+Start implementing the backend agent pipeline
+Test with real company websites
+Show you generated outputs for feedback
+Optional Now, Required Later:
+When ready to test Salesforce integration, I'll need:
+
+Salesforce username
+Salesforce password
+Salesforce security token
+Custom field names (e.g., Loss_Reason__c, Health_Score__c)
+(We can start without this and add it in Phase 4)
+
+Ready when you are! Drop those files or examples whenever convenient.
