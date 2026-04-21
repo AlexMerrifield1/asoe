@@ -1,6 +1,7 @@
 import '../../config.js';
 import Anthropic from '@anthropic-ai/sdk';
 import { getToneDirective } from '../toneDirectives.js';
+import { getOutputRules, sanitizeOutput } from '../outputRules.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -893,6 +894,7 @@ export async function generateEngagement(formData) {
     // Replace template variables
     promptTemplate = promptTemplate
       .replace('{{toneDirective}}', getToneDirective(formData.tone))
+      .replace('{{outputRules}}', getOutputRules())
       .replace('{{engagementType}}', engagementType)
       .replace('{{clientName}}', formData.clientName || 'Client')
       .replace('{{clientTier}}', formData.clientTier || 'target')
@@ -928,6 +930,15 @@ export async function generateEngagement(formData) {
       engagementOutput = JSON.parse(jsonMatch[0]);
     } else {
       engagementOutput = JSON.parse(responseText);
+    }
+
+    // Sanitize output (strip em dashes and double hyphens)
+    if (engagementOutput.outreachMessage) {
+      for (const key of ['subject', 'body']) {
+        if (engagementOutput.outreachMessage[key]) {
+          engagementOutput.outreachMessage[key] = sanitizeOutput(engagementOutput.outreachMessage[key]);
+        }
+      }
     }
 
     // Ensure industry insights are included with proper format

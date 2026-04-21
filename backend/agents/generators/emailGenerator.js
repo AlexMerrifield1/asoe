@@ -1,6 +1,7 @@
 import '../../config.js';
 import Anthropic from '@anthropic-ai/sdk';
 import { getToneDirective } from '../toneDirectives.js';
+import { getOutputRules, sanitizeOutput } from '../outputRules.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,7 +47,7 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
   console.log(`📧 Generating email for workflow: ${workflowType} (loom: ${includeLoom ? 'yes' : 'no'})`);
 
   try {
-    // Load email prompt template — use no-loom variant when Loom is disabled
+    // Load email prompt template -- use no-loom variant when Loom is disabled
     const promptFile = includeLoom ? 'email.md' : 'email-no-loom.md';
     const promptPath = path.join(__dirname, '../../prompts', promptFile);
     let promptTemplate = await fs.readFile(promptPath, 'utf-8');
@@ -61,8 +62,8 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
 
     // For the Loom template, inject the dynamic CTA section
     if (includeLoom) {
-      const ctaSection = `### 2. Loom CTA (IMMEDIATELY after the hook — PRIMARY CTA)
-- The Loom video is the primary CTA — it should be visible without scrolling on mobile
+      const ctaSection = `### 2. Loom CTA (IMMEDIATELY after the hook, PRIMARY CTA)
+- The Loom video is the primary CTA. It should be visible without scrolling on mobile
 - One sentence teasing the specific insight or audit the video contains
 - The Loom link on its own line for maximum visibility
 - Example: "I made a 90-second audit breaking down exactly where this is costing you."
@@ -73,6 +74,7 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
     // Replace template variables
     promptTemplate = promptTemplate
       .replace('{{toneDirective}}', getToneDirective(formData.tone))
+      .replace('{{outputRules}}', getOutputRules())
       .replace('{{validatedFacts}}', JSON.stringify(validatedFacts, null, 2))
       .replace('{{workflowType}}', workflowType)
       .replace('{{companyName}}', companyName)
@@ -103,6 +105,13 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
       emailContent = JSON.parse(jsonMatch[0]);
     } else {
       emailContent = JSON.parse(responseText);
+    }
+
+    // Sanitize output (strip em dashes and double hyphens)
+    for (const key of ['subject', 'subjectAlt', 'body', 'loomTitle', 'confidenceNotes', 'tone']) {
+      if (emailContent[key]) {
+        emailContent[key] = sanitizeOutput(emailContent[key]);
+      }
     }
 
     // Contact block definitions
@@ -136,13 +145,13 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
 
     console.log(`📝 Email word count: ${wordCount} (target: 40-80, review if >${REVIEW_THRESHOLD})`);
 
-    // Condense if over the threshold — elite first-touch emails average under 80 words
+    // Condense if over the threshold -- elite first-touch emails average under 80 words
     if (wordCount > REVIEW_THRESHOLD) {
       console.log(`⚠️ Email may be too long (${wordCount} words), tightening to under 80 words...`);
 
       const loomPreserveNote = includeLoom
         ? `2. The Loom video link and its placement (must stay early in the email)`
-        : `2. The direct CTA (meeting ask or provocative question — do NOT add any Loom or video reference)`;
+        : `2. The direct CTA (meeting ask or provocative question, do NOT add any Loom or video reference)`;
 
       const condenseMessage = await anthropic.messages.create({
         model: 'claude-sonnet-4-20250514',
@@ -151,7 +160,7 @@ export async function generateEmail(validatedFacts, workflowType, formData) {
         messages: [
           {
             role: 'user',
-            content: `Tighten this email to under 80 words (body only, excluding "Best,"). Every sentence must be 8-10 words max — split any longer sentence into two.
+            content: `Tighten this email to under 80 words (body only, excluding "Best,"). Every sentence must be 8-10 words max. Split any longer sentence into two.
 
 CRITICAL - These elements MUST be preserved:
 1. The power label (Strategy Void, Complexity Wall, Silent Adoption Issues, etc.) - this is the core insight

@@ -1276,7 +1276,9 @@ const ASOEDemo = () => {
                   let text = '';
                   if (results.followUpOutput?.emailDraft) {
                     const body = results.followUpOutput.emailDraft.body;
-                    text = `Subject: ${results.followUpOutput.emailDraft.subject}\n\n${body}`;
+                    text = results.followUpOutput.emailDraft.subject
+                      ? `Subject: ${results.followUpOutput.emailDraft.subject}\n\n${body}`
+                      : body;
                     copyEmailToClipboard(text, 'followup');
                     return;
                   } else if (results.followUpOutput?.phoneScript) {
@@ -1305,9 +1307,10 @@ const ASOEDemo = () => {
             {/* Email Draft Output */}
             {results.followUpOutput.emailDraft && (
               <div className="space-y-3">
+                {results.followUpOutput.emailDraft.subject && (
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">
-                    Alternative Subject Line <span className="text-gray-400 font-normal">(optional — use if starting a new thread)</span>
+                    Alternative Subject Line <span className="text-gray-400 font-normal">(optional -- use if starting a new thread)</span>
                   </label>
                   <p className="text-sm font-medium text-gray-900 bg-gray-50 p-3 rounded border border-gray-200">
                     {results.followUpOutput.emailDraft.subject}
@@ -1318,6 +1321,7 @@ const ASOEDemo = () => {
                     </p>
                   )}
                 </div>
+                )}
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Email Body</label>
                   <div className="text-sm text-gray-800 bg-gray-50 p-4 rounded border border-gray-200 whitespace-pre-wrap" style={{ fontFamily: 'Verdana, Geneva, Tahoma, sans-serif' }}>
