@@ -1,5 +1,6 @@
 import '../../config.js';
 import Anthropic from '@anthropic-ai/sdk';
+import { getOutputRules } from '../outputRules.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -44,6 +45,7 @@ export async function generateSlideContent(validatedFacts, workflowType, formDat
 
     // Replace template variables
     promptTemplate = promptTemplate
+      .replace('{{outputRules}}', getOutputRules())
       .replace('{{validatedFacts}}', JSON.stringify(validatedFacts, null, 2))
       .replace('{{workflowType}}', workflowType)
       .replace('{{companyName}}', companyName)

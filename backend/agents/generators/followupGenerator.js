@@ -1,6 +1,7 @@
 import '../../config.js';
 import Anthropic from '@anthropic-ai/sdk';
 import { getToneDirective } from '../toneDirectives.js';
+import { getOutputRules, sanitizeOutput } from '../outputRules.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -54,6 +55,7 @@ export async function generateFollowUp(formData, companyContext = null) {
     // Replace template variables
     promptTemplate = promptTemplate
       .replace('{{toneDirective}}', getToneDirective(formData.tone))
+      .replace('{{outputRules}}', getOutputRules())
       .replace('{{lastTouchpointType}}', formData.lastTouchpointType || 'email')
       .replace('{{lastTouchpointContext}}', formData.lastTouchpointContext || 'N/A')
       .replace('{{prospectName}}', formData.prospectName || 'there')
@@ -86,6 +88,34 @@ export async function generateFollowUp(formData, companyContext = null) {
       followUpOutput = JSON.parse(jsonMatch[0]);
     } else {
       followUpOutput = JSON.parse(responseText);
+    }
+
+    // For 2nd touch email, remove subject entirely (it's always a reply)
+    if (followUpOutput.emailDraft && String(formData.touchpointNumber) === '2') {
+      delete followUpOutput.emailDraft.subject;
+      delete followUpOutput.emailDraft.subjectNote;
+    }
+
+    // Sanitize output (strip em dashes and double hyphens)
+    if (followUpOutput.emailDraft) {
+      for (const key of ['subject', 'subjectNote', 'body']) {
+        if (followUpOutput.emailDraft[key]) {
+          followUpOutput.emailDraft[key] = sanitizeOutput(followUpOutput.emailDraft[key]);
+        }
+      }
+    }
+    if (followUpOutput.phoneScript) {
+      for (const key of ['opening', 'closing']) {
+        if (followUpOutput.phoneScript[key]) {
+          followUpOutput.phoneScript[key] = sanitizeOutput(followUpOutput.phoneScript[key]);
+        }
+      }
+      if (followUpOutput.phoneScript.mainPoints) {
+        followUpOutput.phoneScript.mainPoints = followUpOutput.phoneScript.mainPoints.map(p => sanitizeOutput(p));
+      }
+    }
+    if (followUpOutput.linkedInMessage?.message) {
+      followUpOutput.linkedInMessage.message = sanitizeOutput(followUpOutput.linkedInMessage.message);
     }
 
     // For email output, strip any AI-generated contact info and append programmatically

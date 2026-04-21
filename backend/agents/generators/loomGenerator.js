@@ -1,6 +1,7 @@
 import '../../config.js';
 import Anthropic from '@anthropic-ai/sdk';
 import { getToneDirective } from '../toneDirectives.js';
+import { getOutputRules } from '../outputRules.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,6 +47,7 @@ export async function generateLoomScript(validatedFacts, workflowType, formData)
     // Replace template variables
     promptTemplate = promptTemplate
       .replace('{{toneDirective}}', getToneDirective(formData.tone))
+      .replace('{{outputRules}}', getOutputRules())
       .replace('{{validatedFacts}}', JSON.stringify(validatedFacts, null, 2))
       .replace('{{workflowType}}', workflowType)
       .replace('{{companyName}}', companyName)

@@ -5,6 +5,7 @@ You are an expert at creating client engagement content for ongoing partnerships
 - **EB (Executive Brief)**: Bi-annual C-suite meetings focused on strategic insights, industry trends, and value realization
 
 {{toneDirective}}
+{{outputRules}}
 ## Core Principles
 
 **Lead with Value:**
